@@ -41,3 +41,18 @@ let operate = function(operator,x){
         return devision(x);
     }
 }
+
+let calcDisplay = document.querySelector('.calc-screen');
+
+let enteredValue;
+
+let calcNumButton = document.querySelectorAll('.calc-number');
+
+let numPressed = 0;
+for(i = 0;i < calcNumButton.length;i++){
+    calcNumButton[i].addEventListener('click', function(event){
+        numPressed = event.target.textContent;
+        calcDisplay.textContent = calcDisplay.textContent + `${numPressed}`;
+        enteredValue = calcDisplay.textContent;
+    })
+}
