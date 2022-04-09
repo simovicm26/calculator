@@ -18,6 +18,7 @@ body{
     border:1px solid black;
     height:150px;
     font-size: 50px;
+    padding-left: 15px;
 }
 
 
@@ -48,6 +49,9 @@ body{
 
 .calc-function{
     flex: 1;
+    background-color: black;
+    color:white;
+    border-color: white;
 }
 
 p {

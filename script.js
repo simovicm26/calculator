@@ -26,6 +26,8 @@ let devideOperator = document.querySelector('.devide');
 
 let equalOperator = document.querySelector('.equal');
 
+let clearButton = document.querySelector('.calc-delete');
+
 
 let addition = function(numbers){
     let sumValue = numbers.reduce(function(total,number){
@@ -53,19 +55,18 @@ let multiplication = function(numbers){
     console.log(valuesToOperateOnFirst);
 }
 
+let SecondCheckVar = 0;
 let devision = function(numbers){
     let devideValue;
-    if(numbers[1] === 0){
-        devideValue = 'GTFO';
-    }else {
-        devideValue = numbers[0]/numbers[1];
-        devideValue = devideValue.toFixed(4);
-    }
+    devideValue = numbers[0]/numbers[1];
+    devideValue = devideValue.toFixed(4);
+    if(devideValue ==='Infinity'){
+        calcDisplay.textContent = 'Fuck you';
+    } else {
     calcDisplay.textContent = `${devideValue}`;
     valuesToOperateOn.splice(1,1,devideValue);
     valuesToOperateOnFirst = [devideValue];
-    console.log(valuesToOperateOn)
-    console.log(valuesToOperateOnFirst);
+    }
 }
 
 let operate = function(operator,x){
@@ -88,9 +89,11 @@ let operate = function(operator,x){
     }
 }
 
+checkVar = 1;
 
 for(i = 0;i < calcNumButton.length;i++){
     calcNumButton[i].addEventListener('click', function(event){
+        SecondCheckVar = 0;
         if(checkVar === 1){
             calcDisplay.textContent ='';
         }
@@ -100,43 +103,55 @@ for(i = 0;i < calcNumButton.length;i++){
     })
 }
 equalOperator.addEventListener('click', function(event){
-    checkVar = 1;
-    enteredValue = calcDisplay.textContent;
-    if(secondOperatorValue === '*' || secondOperatorValue === '/'){
-        valuesToOperateOnFirst.push(enteredValue);
-        operate(secondOperatorValue,valuesToOperateOnFirst);
-        operate(operatorValue,valuesToOperateOn);
-        secondOperatorValue = '';
-        valuesToOperateOnFirst = [];
+    if(SecondCheckVar === 0){
+        checkVar = 1;
+        enteredValue = calcDisplay.textContent;
+        if(secondOperatorValue === '*' || secondOperatorValue === '/'){
+            valuesToOperateOnFirst.push(enteredValue);
+            operate(secondOperatorValue,valuesToOperateOnFirst);
+            operate(operatorValue,valuesToOperateOn);
+            secondOperatorValue = '';
+            valuesToOperateOnFirst = [];
+            operatorValue = '';
+            valuesToOperateOn = [];
+        } else{
+                valuesToOperateOn.push(enteredValue);
+                operate(operatorValue,valuesToOperateOn);
+                operatorValue = '';
+                valuesToOperateOn = [];
+        }
+    } else {
         operatorValue = '';
-        valuesToOperateOn = [];
-    } else{
-    valuesToOperateOn.push(enteredValue);
-    operate(operatorValue,valuesToOperateOn);
-    operatorValue = '';
-    valuesToOperateOn = [];
+        secondOperatorValue = '';
+        calcDisplay.textContent = '0';
     }
-
 })
 plusOperator.addEventListener('click', function(event){
-    checkVar = 1;
-    enteredValue = calcDisplay.textContent;
-    if(secondOperatorValue = '*' || secondOperatorValue === '/'){
-        valuesToOperateOnFirst.push(enteredValue);
-        operate(secondOperatorValue,valuesToOperateOnFirst);
-        operate(operatorValue,valuesToOperateOn);
+    if(SecondCheckVar === 0){
+        checkVar = 1;
+        SecondCheckVar = 1;
+        enteredValue = calcDisplay.textContent;
+        if(secondOperatorValue = '*' || secondOperatorValue === '/'){
+            valuesToOperateOnFirst.push(enteredValue);
+            operate(secondOperatorValue,valuesToOperateOnFirst);
+            operate(operatorValue,valuesToOperateOn);
+            secondOperatorValue = '';
+            valuesToOperateOnFirst = [];
+        } else{
+            enteredValue = calcDisplay.textContent;
+            valuesToOperateOn.push(enteredValue);
+            operate(operatorValue,valuesToOperateOn);
+            operatorValue = event.target.textContent;
+        }
+    } else {
+        operatorValue = '';
         secondOperatorValue = '';
-        valuesToOperateOnFirst = [];
-    } else{
-    enteredValue = calcDisplay.textContent;
-    valuesToOperateOn.push(enteredValue);
-    operate(operatorValue,valuesToOperateOn);
-    operatorValue = event.target.textContent;
+        calcDisplay.textContent = '0';
     }
-
 })
 
 minusOperator.addEventListener('click', function(event){
+    if(SecondCheckVar === 0){
     checkVar = 1;
     enteredValue = calcDisplay.textContent;
     if(secondOperatorValue = '*' || secondOperatorValue === '/'){
@@ -150,22 +165,45 @@ minusOperator.addEventListener('click', function(event){
     operate(operatorValue,valuesToOperateOn);
     operatorValue = event.target.textContent;
     }
-
+    } else {
+        operatorValue = '';
+        secondOperatorValue = '';
+        calcDisplay.textContent = '0';
+    }
 })
 
 multiplyOperator.addEventListener('click', function(event){
+    if(SecondCheckVar === 0){
     checkVar = 1;
     enteredValue = calcDisplay.textContent;
     valuesToOperateOnFirst.push(enteredValue);
     operate(secondOperatorValue,valuesToOperateOnFirst);
     secondOperatorValue = event.target.textContent;
-
+    } else {
+        operatorValue = '';
+        secondOperatorValue = '';
+        calcDisplay.textContent = '0';
+    }
 })
 
 devideOperator.addEventListener('click', function(event){
+    if(SecondCheckVar === 0){
     checkVar = 1;
     enteredValue = calcDisplay.textContent;
     valuesToOperateOnFirst.push(enteredValue);
     operate(secondOperatorValue,valuesToOperateOnFirst);
     secondOperatorValue = event.target.textContent;
+    } else {
+        operatorValue = '';
+        secondOperatorValue = '';
+        calcDisplay.textContent = '0';
+    }
+})
+
+clearButton.addEventListener('click', function(event){
+    valuesToOperateOn = [];
+    valuesToOperateOnFirst = [];
+    operatorValue = '';
+    secondOperatorValue = '';
+    calcDisplay.textContent = '0';
 })
