@@ -4,15 +4,20 @@ body{
     align-items: center;
     height: 100vh;
     box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .calc-body{
     border: 1px solid black;
+    padding: 10px;
 }
 
 .calc-screen{
+    display: flex;
+    align-items: center;
     border:1px solid black;
     height:150px;
+    font-size: 50px;
 }
 
 
@@ -36,10 +41,17 @@ body{
 
 .calc-button{
     border:1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .calc-function{
     flex: 1;
+}
+
+p {
+    font-size: 30px;
 }
 
 
